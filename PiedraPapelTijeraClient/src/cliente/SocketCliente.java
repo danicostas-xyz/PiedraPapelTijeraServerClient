@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class SocketCliente {
 	
 	public static final int PUERTO = 2024;
-	public static final String IP_SERVER = "172.26.100.184";
+	public static final String IP_SERVER = "localhost";
 	public static Scanner sc = new Scanner(System.in);
 	public static InetSocketAddress direccionServidor = new InetSocketAddress(IP_SERVER,PUERTO);
 	
@@ -51,12 +51,12 @@ public class SocketCliente {
 					socketAlServidor.close();
 					br.close();
 					isr.close();
+					ganador = true;
 				}else {
 					System.out.println("No hay ganador");
 				}
-				
-				
 			}
+			System.out.println("Fin del programa");
 				
 		} catch (IOException e) {
 			e.printStackTrace();

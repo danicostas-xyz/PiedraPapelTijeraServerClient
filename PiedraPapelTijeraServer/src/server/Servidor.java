@@ -34,16 +34,20 @@ public class Servidor {
 			boolean ganador = false;
 			String ganadorPartida = "";
 			socketAlCliente = serverSocket.accept();
-			
+
 			while (!ganador) {
 
 				entrada = new InputStreamReader(socketAlCliente.getInputStream());
 				BufferedReader br = new BufferedReader(entrada);
 				int mensajeCliente = Integer.parseInt(br.readLine());
-
+				System.out.println("Esperando al turno del cliente...");
+				System.out.println("");
+				System.out.println();
 				System.out.println("El cliente ha terminado su turno.");
+				System.out.println();
 				System.out.print("Selecciona tu opción: ");
 				int mensajeServer = sc.nextInt();
+				System.out.println();
 
 				int resultadoTurno = validarGanadorTurno(mensajeCliente, mensajeServer);
 				salida = new PrintStream(socketAlCliente.getOutputStream());
@@ -51,26 +55,33 @@ public class Servidor {
 				if (resultadoTurno == 0) {
 					System.out.println("Cliente saca: " + mensajeCliente);
 					System.out.println("Server saca: " + mensajeServer);
-					System.out.println("Resultado turno: empate");
-					salida.println("Cliente saca: " + mensajeCliente + "\\n " + "Server saca: " + mensajeServer
-							+ "Resultado turno: empate");
+					System.out.println("Resultado turno: Empate");
+					salida.println("Cliente saca: " + mensajeCliente + ". | " + 
+				               "Server saca: " + mensajeServer + ". | " +
+				               "Resultado turno: Empate");
+
 				} else if (resultadoTurno == 1) {
 					System.out.println("Cliente saca: " + mensajeCliente);
 					System.out.println("Server saca: " + mensajeServer);
-					System.out.println("Resultado turno: cliente gana");
-					salida.println("Cliente saca: " + mensajeCliente + "\\n " + "Server saca: " + mensajeServer
-							+ "Resultado turno: cliente gana");
+					System.out.println("Resultado turno: Cliente gana");
+					salida.println("Cliente saca: " + mensajeCliente + ". | " + 
+								"Server saca: " + mensajeServer + ". | " +
+								"Resultado turno: Cliente gana");
 					carlos++;
+
 				} else if (resultadoTurno == 2) {
 					System.out.println("Cliente saca: " + mensajeCliente);
 					System.out.println("Server saca: " + mensajeServer);
-					System.out.println("Resultado turno: server gana");
-					salida.println("Cliente saca: " + mensajeCliente + "\\n " + "Server saca: " + mensajeServer
-							+ "Resultado turno: server gana");
+					System.out.println("Resultado turno: Server gana");
+					salida.println("Cliente saca: " + mensajeCliente + ". | " + 
+								"Server saca: " + mensajeServer + ". | " +
+								"Resultado turno: Server gana");
 					dani++;
+
 				}
 
 				if (dani == 3 || carlos == 3) {
+
 					if (dani == 3) {
 						ganadorPartida = "Dani";
 						salida.println("1");
@@ -86,6 +97,7 @@ public class Servidor {
 				} else {
 					System.out.println();
 					System.out.println("Todavía no hay ganador, siguiente turno.");
+					System.out.println();
 					salida.println("3");
 				}
 
@@ -99,9 +111,14 @@ public class Servidor {
 	}
 
 	/**
-	 * 
-	 * @param mCl
-	 * @param mSr
+	 * Método que valida el resultado del turno del juego Piedra, Papel y Tijera en función de la entrada del cliente y la entrada del servidor-cliente.
+	 * Las entradas posibles son: <ul>
+	 * 									<li>1: Piedra</li>
+	 * 									<li>2: Papel</li>
+	 * 									<li>3: Tijera</li>
+	 * 							</ul>
+	 * @param mCl Entrada del cliente
+	 * @param mSr Entrada del servidor-cliente
 	 * @return 0 si hay empate, 1 si gana mCl, 2 si gana mSr,
 	 */
 	private static int validarGanadorTurno(int mCl, int mSr) {
